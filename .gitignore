@@ -280,6 +280,6 @@ __pycache__/
 !/src/Skoruba.IdentityServer4.Admin/Views/Log/
 !/src/Skoruba.IdentityServer4.Admin.BusinessLogic/Events/Log/
 /src/Skoruba.IdentityServer4.Admin.Api/appsettings.Production.json
-/src/Skoruba.IdentityServer4.Admin.Api/Logs/*.txt
-/src/Skoruba.IdentityServer4.Admin/Logs/*.txt
-/src/Skoruba.IdentityServer4.STS.Identity/Logs/*.txt
+/src/Skoruba.IdentityServer4.Admin.Api/Logs/*.*
+/src/Skoruba.IdentityServer4.Admin/Logs/*.*
+/src/Skoruba.IdentityServer4.STS.Identity/Logs/*.*
