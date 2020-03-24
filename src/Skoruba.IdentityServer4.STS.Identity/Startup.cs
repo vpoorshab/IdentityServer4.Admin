@@ -12,6 +12,8 @@ using Skoruba.IdentityServer4.STS.Identity.Configuration.Constants;
 using Skoruba.IdentityServer4.STS.Identity.Configuration.Interfaces;
 using Skoruba.IdentityServer4.STS.Identity.Helpers;
 using System;
+using System.Net;
+using System.Net.Security;
 using Microsoft.AspNetCore.DataProtection;
 
 namespace Skoruba.IdentityServer4.STS.Identity
@@ -77,8 +79,8 @@ namespace Skoruba.IdentityServer4.STS.Identity
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoint => 
-            { 
+            app.UseEndpoints(endpoint =>
+            {
                 endpoint.MapDefaultControllerRoute();
                 endpoint.MapHealthChecks("/health", new HealthCheckOptions
                 {

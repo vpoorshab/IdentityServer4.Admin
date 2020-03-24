@@ -17,7 +17,7 @@ services:
       - "AdminConfiguration__IdentityAdminBaseUrl=https://identity.payaware.local:9043"
       - "AdminConfiguration__IdentityAdminRedirectUri=https://identity.payaware.local:9043/signin-oidc"
       - "AdminConfiguration__IdentityServerBaseUrl=https://identity.payaware.local"
-      - "AdminConfiguration__RequireHttpsMetadata=false"
+      - "AdminConfiguration__RequireHttpsMetadata=true"
       - "IdentityServerData__Clients__0__ClientUri=https://identity.payaware.local:9043"
       - "IdentityServerData__Clients__0__RedirectUris__0=https://identity.payaware.local:9043/signin-oidc"
       - "IdentityServerData__Clients__0__FrontChannelLogoutUri=https://identity.payaware.local:9043/signin-oidc"
@@ -39,7 +39,7 @@ services:
       context: .
       dockerfile: src/Skoruba.IdentityServer4.Admin.Api/Dockerfile
     environment:
-      - "AdminApiConfiguration__RequireHttpsMetadata=false"
+      - "AdminApiConfiguration__RequireHttpsMetadata=true"
       - "AdminApiConfiguration__ApiBaseUrl=https://identity.payaware.local:5043"
       - "AdminApiConfiguration__IdentityServerBaseUrl=https://identity.payaware.local"
       - "ConnectionStrings__ConfigurationDbConnection=Server=host.docker.internal;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password@123};MultipleActiveResultSets=true"

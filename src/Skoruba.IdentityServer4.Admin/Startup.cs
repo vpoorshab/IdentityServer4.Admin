@@ -16,6 +16,8 @@ using Skoruba.IdentityServer4.Admin.Helpers;
 using Skoruba.IdentityServer4.Admin.Configuration;
 using Skoruba.IdentityServer4.Admin.Configuration.Constants;
 using System;
+using System.Net;
+using System.Net.Security;
 using Microsoft.AspNetCore.DataProtection;
 
 namespace Skoruba.IdentityServer4.Admin
@@ -82,6 +84,8 @@ namespace Skoruba.IdentityServer4.Admin
             services.AddAuditEventLogging<AdminAuditLogDbContext, AuditLog>(Configuration);
 
             services.AddIdSHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminIdentityDbContext, AdminLogDbContext, AdminAuditLogDbContext, IdentityServerDataProtectionDbContext>(Configuration, rootConfiguration.AdminConfiguration);
+
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
@@ -89,6 +93,7 @@ namespace Skoruba.IdentityServer4.Admin
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+               
             }
             else
             {
