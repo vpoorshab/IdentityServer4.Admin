@@ -19,6 +19,7 @@ using System;
 using System.Net;
 using System.Net.Security;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.IdentityModel.Logging;
 
 namespace Skoruba.IdentityServer4.Admin
 {
@@ -90,10 +91,11 @@ namespace Skoruba.IdentityServer4.Admin
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
+                IdentityModelEventSource.ShowPII = true;
             }
             else
             {
