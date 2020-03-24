@@ -393,7 +393,7 @@ namespace Skoruba.IdentityServer4.Admin.Helpers
                         options.ClientId = adminConfiguration.ClientId;
                         options.ClientSecret = adminConfiguration.ClientSecret;
                         options.ResponseType = adminConfiguration.OidcResponseType;
-
+                        
                         options.Scope.Clear();
                         foreach (var scope in adminConfiguration.Scopes)
                         {

@@ -196,6 +196,7 @@ namespace Skoruba.IdentityServer4.Admin.Api.Helpers
                     options.Authority = adminApiConfiguration.IdentityServerBaseUrl;
                     options.ApiName = adminApiConfiguration.OidcApiName;
                     options.RequireHttpsMetadata = adminApiConfiguration.RequireHttpsMetadata;
+                    
                 });
         }
 
