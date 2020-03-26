@@ -16,6 +16,12 @@
         "Name": "Console"
       },
       {
+        "Name": "EventLog",
+        "Args": {
+          "restrictedToMinimumLevel": "Error"
+        }
+      },
+      {
         "Args": {
           "buffered": true,
           "flushToDiskInterval": 15,

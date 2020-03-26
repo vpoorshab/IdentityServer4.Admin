@@ -1,0 +1,41 @@
+﻿{
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "Microsoft": "Information",
+        "System": "Error"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Async",
+        "Args": {
+          "configure": [
+            {
+              "Name": "File",
+              "Args": {
+                "buffered": false,
+                "flushToDiskInterval": "2",
+                "outputTemplate": "[{Timestamp:o}][{Level:u4}][{ThreadId}][{SourceContext}] {Message}{NewLine}{Exception}",
+                "path": "Logs//sts-log.txt",
+                "retainedFileCountLimit": 3,
+                "textFormatter": "Serilog.Formatting.Json.JsonFormatter, Serilog",
+                "rollOnFileSizeLimit": true,
+                "fileSizeLimitBytes": 5242880, //Byte -- 5120KB
+                "Shared": true
+              }
+            }
+          ]
+        }
+      }
+      
+    ],
+
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+    "Properties": {
+      "Product": "STS",
+      "Env": ""
+    }
+  }
+}

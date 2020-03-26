@@ -9,11 +9,22 @@ namespace Skoruba.IdentityServer4.Admin.Api
 {
     public class Program
     {
+
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("serilog.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .Build();
+
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .CreateLogger();
+
+            Serilog.Debugging.SelfLog.Enable(msg => File.AppendAllText("Logs\\SelfLog.txt", msg));
+
             try
             {
                 CreateHostBuilder(args).Build().Run();
@@ -28,18 +39,19 @@ namespace Skoruba.IdentityServer4.Admin.Api
             }
         }
 
-        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile("serilog.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables()
-            .Build();
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+               public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(configHost =>
+                {
+                    configHost.AddJsonFile("hostSetting.json", optional: false, reloadOnChange: true);
+
+                })
+
                  .ConfigureAppConfiguration((hostContext, configApp) =>
                  {
                      configApp.AddJsonFile("serilog.json", optional: true, reloadOnChange: true);
+                     configApp.AddJsonFile($"serilog.{hostContext.HostingEnvironment.EnvironmentName}.json",
+                         optional: false, reloadOnChange: true);
 
                      if (hostContext.HostingEnvironment.IsDevelopment())
                      {

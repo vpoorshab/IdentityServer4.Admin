@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://sts.identity.local",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:5000",
       "sslPort": 0
@@ -27,8 +31,11 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "environmentVariables": {},
       "httpPort": 10000
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true
     }
   }
 }

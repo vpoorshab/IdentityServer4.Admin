@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://admin.identity.local",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:9000/",
       "sslPort": 0
@@ -28,6 +32,11 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "httpPort": 10000
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "https://admin.identity.local"
     }
   }
 }

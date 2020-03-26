@@ -16,14 +16,25 @@ namespace Skoruba.IdentityServer4.Admin
     {
         private const string SeedArgs = "/seed";
 
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("serilog.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .Build();
+
         public static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .CreateLogger();
 
+            Serilog.Debugging.SelfLog.Enable(msg => File.AppendAllText("Logs\\SelfLog.txt", msg));
+
             try
             {
+                Log.Information("Start");
+
                 var seed = args.Any(x => x == SeedArgs);
                 if (seed) args = args.Except(new[] { SeedArgs }).ToArray();
 
@@ -51,23 +62,28 @@ namespace Skoruba.IdentityServer4.Admin
             }
         }
 
-        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile("serilog.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables()
-            .Build();
+        
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(configHost =>
+                    {
+                        configHost.AddJsonFile("hostSetting.json", optional: false, reloadOnChange: true);
+
+                    })
+
                  .ConfigureAppConfiguration((hostContext, configApp) =>
                  {
-                     configApp.AddJsonFile("serilog.json", optional: true, reloadOnChange: true);
+                     configApp.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                      configApp.AddJsonFile("identitydata.json", optional: true, reloadOnChange: true);
                      configApp.AddJsonFile("identityserverdata.json", optional: true, reloadOnChange: true);
+                     configApp.AddJsonFile("serilog.json", optional: true, reloadOnChange: true);
+                     configApp.AddJsonFile($"serilog.{hostContext.HostingEnvironment.EnvironmentName}.json",
+                         optional: false, reloadOnChange: true);
 
                      if (hostContext.HostingEnvironment.IsDevelopment())
                      {
+
                          configApp.AddUserSecrets<Startup>();
                      }
 
