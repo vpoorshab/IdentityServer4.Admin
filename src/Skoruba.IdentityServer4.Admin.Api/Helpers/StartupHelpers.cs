@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.Options;
@@ -196,7 +198,40 @@ namespace Skoruba.IdentityServer4.Admin.Api.Helpers
                     options.Authority = adminApiConfiguration.IdentityServerBaseUrl;
                     options.ApiName = adminApiConfiguration.OidcApiName;
                     options.RequireHttpsMetadata = adminApiConfiguration.RequireHttpsMetadata;
-                    
+                    options.JwtBearerEvents = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+                    {
+
+                        OnTokenValidated = e =>
+                        {
+                            var jwt = e.SecurityToken as JwtSecurityToken;
+                            var type = jwt.Header.Typ;
+
+                            if (!string.Equals(type, "at+jwt", StringComparison.Ordinal))
+                            {
+                                e.Fail("JWT is not an access token");
+                            }
+
+                            return Task.CompletedTask;
+                        },
+
+                        OnMessageReceived = context =>
+                        {
+                            return Task.CompletedTask;
+
+                        },
+                        OnAuthenticationFailed = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnChallenge = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnForbidden = context =>
+                        {
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
         }
 
@@ -244,7 +279,8 @@ namespace Skoruba.IdentityServer4.Admin.Api.Helpers
             {
                 options.AddPolicy(AuthorizationConsts.AdministrationPolicy,
                     policy =>
-                        policy.RequireAssertion(context => context.User.HasClaim(c =>
+                        policy.RequireAssertion(context =>
+                            context.User.HasClaim(c =>
                                 (c.Type == JwtClaimTypes.Role && c.Value == adminApiConfiguration.AdministrationRole) ||
                                 (c.Type == $"client_{JwtClaimTypes.Role}" && c.Value == adminApiConfiguration.AdministrationRole)
                             )

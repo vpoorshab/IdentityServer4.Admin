@@ -311,6 +311,8 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
+                    options.MutualTls.Enabled = false;
+                    options.MutualTls.ClientCertificateAuthenticationScheme = "x509";
 
                     if (!string.IsNullOrEmpty(advancedConfiguration.PublicOrigin))
                         options.PublicOrigin = advancedConfiguration.PublicOrigin;
@@ -321,7 +323,10 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 
             builder.AddCustomSigningCredential(configuration);
             builder.AddCustomValidationKey(configuration);
-
+            builder.AddJwtBearerClientAuthentication();
+            builder.AddJwtBearerClientAuthentication();
+            builder.AddAppAuthRedirectUriValidator();
+            builder.AddMutualTlsSecretValidators();
             return builder;
         }
 
